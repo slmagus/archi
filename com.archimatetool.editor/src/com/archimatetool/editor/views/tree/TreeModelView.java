@@ -54,6 +54,7 @@ import com.archimatetool.editor.actions.OpenModelAction;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.dialog.ModelRelationshipsMatrixDialog;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.IUIRequestListener;
@@ -112,6 +113,8 @@ implements ITreeModelView, IUIRequestListener {
     private IAction fActionCollapseSelected;
     private IAction fActionExpandSelected;
     
+    private IAction fActionShowModelRelationshipsDialog;
+    
     private IViewerAction fActionProperties;
     private IViewerAction fActionSaveModel;
     private IViewerAction fActionCloseModel;
@@ -130,6 +133,7 @@ implements ITreeModelView, IUIRequestListener {
     private TreeSelectionSynchroniser fSynchroniser;
     
     private DrillDownAdapter fDrillDownAdapter;
+    
     
     public TreeModelView() {
     }
@@ -381,6 +385,17 @@ implements ITreeModelView, IUIRequestListener {
                 return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_EXPANDALL);
             }
         };
+        
+        fActionShowModelRelationshipsDialog = new Action("Model Relationships") {
+            @Override
+            public void run() {
+                IArchimateModel model = getActiveArchimateModel();
+                if(model != null) {
+                    ModelRelationshipsMatrixDialog dialog = new ModelRelationshipsMatrixDialog(getSite().getShell(), model);
+                    dialog.open();
+                }
+            }
+        };
     }
     
     /**
@@ -510,6 +525,7 @@ implements ITreeModelView, IUIRequestListener {
 
             manager.add(new Separator("start_extensions")); //$NON-NLS-1$
             manager.add(fActionGenerateView);
+            manager.add(fActionShowModelRelationshipsDialog);
             manager.add(new GroupMarker("append_extensions")); //$NON-NLS-1$
             manager.add(new Separator("end_extensions")); //$NON-NLS-1$
             
