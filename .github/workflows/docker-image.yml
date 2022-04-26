@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag archimate:$(date +%s)
     - name: Tests the Docker image is able to run the commandline app
-      run: docker run -it archimate:$(date +%s) /opt/Archi/Archi -consoleLog -console -nosplash -application com.archimatetool.commandline.app --help
+      run: docker run -t archimate:$(date +%s) /opt/Archi/Archi -consoleLog -console -nosplash -application com.archimatetool.commandline.app --help
